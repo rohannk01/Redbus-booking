@@ -62,9 +62,8 @@ const connect = () => {
     console.log('MongoDB connection established.');
   });
 
-  return mongoose.connect(
-"mongodb+srv://redbus_db_user_1:umJkhSujb8dZoc2a@redbuscnstructweek.bujg6.mongodb.net/redbus?retryWrites=true&w=majority",
-    {
+  return mongoose.connect(  process.env.MONGO_URI
+  {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
