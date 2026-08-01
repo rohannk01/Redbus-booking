@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config({path:"../config.env"});
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -62,7 +63,8 @@ const connect = () => {
     console.log('MongoDB connection established.');
   });
 
-  return mongoose.connect(  process.env.MONGO_URI
+
+  return mongoose.connect(process.env.DATABASE.replace("<PASSWORD>",process.env.DATABASE_PASSWORD),
   {
       useCreateIndex: true,
       useNewUrlParser: true,
