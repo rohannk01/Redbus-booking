@@ -1,10 +1,11 @@
 const express = require("express");
+const path = require("path");
 require("dotenv").config({path:"../config.env"});
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
-const stripe = require("stripe")
+const stripe = require("stripe")   
 ( process.env.STRIPE_SECRET_KEY  ); // add a stripe key, (this test key will expire on 18th march 2021)
 
 mongoose.pluralize(null);
@@ -51,6 +52,12 @@ app.use(bookingHireRoutes);
 const busServiceRoutes = require("./routes/busservice");
 app.use(busServiceRoutes);
 
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
+});
+
 const connect = () => {
   const db = mongoose.connection; // Get the mongoose connection object
 
@@ -80,6 +87,8 @@ let host = process.env.HOST;
 
 const start = async () => {
   await connect().then(()=>console.log("Database connected")).catch((err)=>console.log(err));
-  app.listen(port, host, ()=>console.log("Server is running"));
+  app.listen(port, () => {
+  console.log("Server is running");
+});
 };
 start();
