@@ -2,11 +2,17 @@ FROM node:20
 
 WORKDIR /app
 
-COPY package*.json ./
-
-RUN npm install
-
+# Copy everything
 COPY . .
+
+# Install frontend dependencies and build React
+WORKDIR /app/frontend
+RUN npm install
+RUN npm run build
+
+# Install backend dependencies
+WORKDIR /app/Backend
+RUN npm install
 
 EXPOSE 3020
 
